@@ -30,6 +30,11 @@ const sum = (arr) => arr.reduce((a, b) => a + b, 0);
 const zeros = (n, m) => Array.from({ length: n }, () => Array(m).fill(0));
 const nowMs = () => Date.now();
 
+/**
+ * 
+ * @param {Array<Array<number>>} E 
+ * @returns {Array<Array<number>>} Matrix
+ */
 const ensureRowStochastic = (E) => {
   const n = E.length;
   for (let i = 0; i < n; i++) {
@@ -46,6 +51,12 @@ const ensureRowStochastic = (E) => {
 };
 
 // ---------- PICSY Math ----------
+/**
+ * 
+ * @param {number[]} v 
+ * @param {number[][]} E 
+ * @returns {number[]}
+ */
 function leftMultiplyEPrime(v, E) {
   const n = E.length;
   if (n <= 1) return v.slice();
@@ -67,18 +78,37 @@ function leftMultiplyEPrime(v, E) {
   return out;
 }
 
+/**
+ * 
+ * @param {number[]} v 
+ * @param {number} targetSum 
+ * @returns {number}
+ */
 function normalizeToSum(v, targetSum) {
   const s = sum(v);
   if (s === 0) return v.map(() => targetSum / v.length);
   const scale = targetSum / s;
   return v.map((x) => x * scale);
 }
+
+/**
+ * 二つのベクトルの同じインデックスの要素の差を合計する
+ * @param {number[]} a 
+ * @param {number[]} b 
+ * @returns {number}
+ */
 function l1Diff(a, b) {
   let d = 0;
   for (let i = 0; i < a.length; i++) d += Math.abs(a[i] - b[i]);
   return d;
 }
 
+/**
+ * 
+ * @param {number[][]} E 
+ * @param {{maxIter?:number, tol?:number, warmStart:number[]}} opts 
+ * @returns 
+ */
 function powerIterationLeft(E, opts = {}) {
   const n = E.length;
   const { maxIter = 1000, tol = 1e-10, warmStart } = opts;
