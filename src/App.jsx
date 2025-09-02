@@ -181,13 +181,15 @@ function runSelfTests() {
   try {
     // Base matrix (3x3): diag=0.2, off=0.4
     const E0 = ensureRowStochastic([
-      [0.2, 0.4, 0.4],
-      [0.4, 0.2, 0.4],
-      [0.4, 0.4, 0.2],
+      [0, 0.65, 0.35],
+      [0.50, 0, 0.50],
+      [0.25, 0.75, 0],
     ]);
     assert(E0.every((r) => Math.abs(sum(r) - 1) < 1e-12), "row sums to 1");
 
     const c0 = powerIterationLeft(E0);
+    console.log("c0", c0);
+    
     assert(Math.abs(sum(c0) - 3) < 1e-8, "sum(c)=N");
 
     // applyLike correctness
